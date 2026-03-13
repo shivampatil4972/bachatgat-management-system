@@ -303,11 +303,9 @@ bachat_gat/
 
 **Admin Account:**
 - Email: `admin@bachatgat.com`
-- Password: `admin@123`
+- Password: `Admin@123`
 
-**Member Account:**
-- Email: `member1@bachatgat.com`
-- Password: `member@123`
+
 
 ⚠️ **Important**: Change default passwords after first login!
 
@@ -425,8 +423,8 @@ bachat_gat/
 
 | Role | Email | Password | Access Level |
 |------|-------|----------|--------------|
-| Admin | admin@bachatgat.com | admin@123 | Full system access |
-| Member | member1@bachatgat.com | member@123 | Member portal only |
+| Admin | admin@bachatgat.com | Admin@123 | Full system access |
+
 
 ---
 
