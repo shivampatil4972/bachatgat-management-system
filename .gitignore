@@ -1,0 +1,163 @@
+# ========================================
+# BACHAT GAT - Git Ignore File
+# ========================================
+
+# ========================================
+# ENVIRONMENT FILES
+# ========================================
+.env
+.env.local
+.env.production
+.env.backup
+
+# ========================================
+# LOGS & TEMPORARY FILES
+# ========================================
+logs/
+*.log
+error_log
+debug.log
+db_errors.log
+
+# ========================================
+# UPLOADED FILES (Keep structure, ignore content)
+# ========================================
+assets/uploads/profiles/*
+!assets/uploads/profiles/.gitkeep
+assets/uploads/documents/*
+!assets/uploads/documents/.gitkeep
+
+# ========================================
+# SYSTEM FILES
+# ========================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ========================================
+# IDE & EDITOR FILES
+# ========================================
+# VSCode
+.vscode/
+*.code-workspace
+
+# PHPStorm / IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# Atom
+.atom/
+
+# NetBeans
+nbproject/
+
+# ========================================
+# DEPENDENCY DIRECTORIES
+# ========================================
+vendor/
+node_modules/
+bower_components/
+
+# ========================================
+# COMPOSER
+# ========================================
+composer.phar
+composer.lock
+
+# ========================================
+# NPM / YARN
+# ========================================
+package-lock.json
+yarn.lock
+
+# ========================================
+# BACKUP & TEMPORARY FILES
+# ========================================
+*.bak
+*.backup
+*.tmp
+*.temp
+*~
+*.swp
+*.swo
+
+# ========================================
+# DATABASE DUMPS
+# ========================================
+*.sql.gz
+*.sql.zip
+database/backups/
+backups/
+
+# ========================================
+# TEST FILES (Remove in production)
+# ========================================
+test-connection.php
+test-*.php
+debug-*.php
+
+# ========================================
+# CACHE & SESSION FILES
+# ========================================
+cache/
+sessions/
+*.cache
+
+# ========================================
+# BUILD & COMPILED FILES
+# ========================================
+dist/
+build/
+*.min.css
+*.min.js
+# (Keep third-party minified files)
+!assets/vendor/**/*.min.css
+!assets/vendor/**/*.min.js
+
+# ========================================
+# DOCUMENTATION (Optional - remove if needed)
+# ========================================
+# docs/private/
+
+# ========================================
+# OS SPECIFIC
+# ========================================
+# Windows
+Thumbs.db
+ehthumbs.db
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+
+# Linux
+*~
+
+# ========================================
+# PHP SPECIFIC
+# ========================================
+*.php~
+*.php.bak
+
+# ========================================
+# SENSITIVE DATA
+# ========================================
+config/credentials.php
+config/secrets.php
+private/
+sensitive/
+
+# ========================================
+# END OF .gitignore
+# ========================================

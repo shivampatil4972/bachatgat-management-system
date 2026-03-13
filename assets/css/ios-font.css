@@ -1,0 +1,37 @@
+:root {
+    --ios-font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+}
+
+html,
+body,
+button,
+input,
+optgroup,
+select,
+textarea,
+.table,
+.form-control,
+.form-select,
+.btn,
+.dropdown-item,
+.card,
+.nav-link,
+.breadcrumb,
+.alert,
+.small,
+small,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+span,
+label,
+a,
+li,
+td,
+th {
+    font-family: var(--ios-font-stack) !important;
+}
