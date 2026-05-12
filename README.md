@@ -417,6 +417,7 @@ http://localhost/bachat_gat/
 ### **Default Login Credentials** ⚠️ **CHANGE IMMEDIATELY AFTER LOGIN**
 
 **Admin Account:**
+<<<<<<< HEAD
 ```
 Email:    admin@bachatgat.com
 Password: admin@123
@@ -429,6 +430,12 @@ Email:    member1@bachatgat.com
 Password: member@123
 Access:   Member portal only
 ```
+=======
+- Email: `admin@bachatgat.com`
+- Password: `Admin@123`
+
+
+>>>>>>> 1899c4b2a60d9757a90555b19504664cb10092e9
 
 **Security Steps:**
 1. Login with admin credentials
@@ -552,8 +559,8 @@ Access:   Member portal only
 
 | Role | Email | Password | Access Level |
 |------|-------|----------|--------------|
-| Admin | admin@bachatgat.com | admin@123 | Full system access |
-| Member | member1@bachatgat.com | member@123 | Member portal only |
+| Admin | admin@bachatgat.com | Admin@123 | Full system access |
+
 
 ---
 
