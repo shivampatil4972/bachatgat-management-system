@@ -13,12 +13,27 @@
 
 class Database {
     
-    // Database credentials
-    private $host = 'localhost';
-    private $db_name = 'bachat_gat_db';
-    private $username = 'root';
-    private $password = '';
+    // Database credentials - loaded from environment
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     private $charset = 'utf8mb4';
+    
+    /**
+     * Initialize database credentials from environment
+     * Falls back to defaults if .env not configured
+     */
+    private function initializeCredentials()
+    {
+        // Load credentials from .env file
+        require_once dirname(__DIR__) . '/src/Env.php';
+        
+        $this->host = \Env::get('DB_HOST', 'localhost');
+        $this->db_name = \Env::get('DB_NAME', 'bachat_gat_db');
+        $this->username = \Env::get('DB_USER', 'root');
+        $this->password = \Env::get('DB_PASS', '');
+    }
     
     // PDO connection instance
     private $conn = null;
@@ -31,7 +46,8 @@ class Database {
      * Implements Singleton pattern
      */
     private function __construct() {
-        // Constructor is private - use getInstance() instead
+        // Initialize credentials from environment variables
+        $this->initializeCredentials();
     }
     
     /**

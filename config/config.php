@@ -62,11 +62,17 @@ date_default_timezone_set('Asia/Kolkata');
 // DATABASE CONFIGURATION
 // ========================================
 
-// Database credentials (can be moved to .env in production)
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'bachat_gat_db');
-define('DB_USER', 'root');
-define('DB_PASS', '');
+// ========================================
+// DATABASE CONFIGURATION (From Environment)
+// ========================================
+// Load environment variables from .env file
+require_once dirname(__DIR__) . '/src/Env.php';
+
+// Database credentials are now loaded from .env file
+define('DB_HOST', \Env::get('DB_HOST', 'localhost'));
+define('DB_NAME', \Env::get('DB_NAME', 'bachat_gat_db'));
+define('DB_USER', \Env::get('DB_USER', 'root'));
+define('DB_PASS', \Env::get('DB_PASS', ''));
 define('DB_CHARSET', 'utf8mb4');
 
 // ========================================
