@@ -13,6 +13,15 @@ A modern, feature-rich web application for managing Self-Help Group (Bachat Gat)
 
 ---
 
+## 📢 Latest Updates (July 2026)
+*   **Major UI Overhaul:** Replaced generic colors with a premium, glassmorphism-inspired Bento UI. Implemented dynamic Light/Dark mode toggles and smooth micro-animations.
+*   **Robust Analytics:** Fixed broken Chart.js implementations. Charts now seamlessly handle empty states (e.g., when no loans or savings data exists) without breaking the page.
+*   **Completed Missing Workflows:** Built out fully functional `Privacy Policy`, `Terms of Service`, and interactive `Help Center` pages. Fixed broken Admin Notifications and footer links.
+*   **Loan Edge Cases Fixed:** UI now correctly handles and displays "Partial" loan installment payments.
+*   **Codebase Cleanup:** Eliminated over 4,000 lines of unused "Modern Service Layer" boilerplate and dead refactored scripts, leaving only pristine, production-ready code.
+
+---
+
 ## ✨ Features
 
 ### 👤 **Authentication & Security**
