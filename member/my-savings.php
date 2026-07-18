@@ -96,7 +96,7 @@ foreach ($savingsByType as $type) {
                         </div>
                         <div class="flex-grow-1 ms-3">
                             <h6 class="mb-1 text-muted">Total Savings</h6>
-                            <h4 class="mb-0"><?= formatCurrency($member['total_savings']) ?></h4>
+                            <h4 class="mb-0"><?= formatIndianCurrency($member['total_savings']) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -142,7 +142,7 @@ foreach ($savingsByType as $type) {
                                 }
                             }
                             ?>
-                            <h4 class="mb-0"><?= formatCurrency($thisMonthSavings) ?></h4>
+                            <h4 class="mb-0"><?= formatIndianCurrency($thisMonthSavings) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -164,7 +164,7 @@ foreach ($savingsByType as $type) {
                             $avgPerMonth = !empty($monthlySummary) ? 
                                 array_sum(array_column($monthlySummary, 'total_amount')) / count($monthlySummary) : 0;
                             ?>
-                            <h4 class="mb-0"><?= formatCurrency($avgPerMonth) ?></h4>
+                            <h4 class="mb-0"><?= formatIndianCurrency($avgPerMonth) ?></h4>
                         </div>
                     </div>
                 </div>
@@ -227,7 +227,7 @@ foreach ($savingsByType as $type) {
                                 <td><?= formatDate($saving['deposit_date']) ?></td>
                                 <td>
                                     <strong class="<?= $saving['transaction_type'] === 'deposit' ? 'text-success' : 'text-danger' ?>">
-                                        <?= $saving['transaction_type'] === 'deposit' ? '+' : '-' ?><?= formatCurrency($saving['amount']) ?>
+                                        <?= $saving['transaction_type'] === 'deposit' ? '+' : '-' ?><?= formatIndianCurrency($saving['amount']) ?>
                                     </strong>
                                 </td>
                                 <td>

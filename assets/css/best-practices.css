@@ -432,6 +432,58 @@
 }
 
 /* ====================================
+   Responsive Alignment & Layout
+   ==================================== */
+
+@media (max-width: 768px) {
+    .text-center-mobile {
+        text-align: center !important;
+    }
+    
+    .flex-center-mobile {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        flex-direction: column !important;
+    }
+    
+    .w-100-mobile {
+        width: 100% !important;
+    }
+
+    .mt-mobile-4 {
+        margin-top: 1.5rem !important;
+    }
+
+    .mb-mobile-4 {
+        margin-bottom: 1.5rem !important;
+    }
+}
+
+/* ====================================
+   Premium UI Effects
+   ==================================== */
+
+.glass-panel {
+    background: rgba(255, 255, 255, 0.65) !important;
+    backdrop-filter: blur(16px) saturate(180%) !important;
+    -webkit-backdrop-filter: blur(16px) saturate(180%) !important;
+    border: 1px solid rgba(255, 255, 255, 0.5) !important;
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.05) !important;
+    border-radius: 16px !important;
+}
+
+.hover-lift {
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.hover-lift:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(31, 38, 135, 0.08) !important;
+    background: rgba(255, 255, 255, 0.85) !important;
+}
+
+/* ====================================
    Dark Mode Support
    ==================================== */
 

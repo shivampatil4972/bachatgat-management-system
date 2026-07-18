@@ -222,9 +222,11 @@ $stats = $db->selectOne("
                                     <button class="btn btn-outline-primary" onclick="viewLoan(<?= $loan['loan_id'] ?>)" title="View Details">
                                         <i class="bi bi-eye"></i>
                                     </button>
+                                    <?php if ($loan['status'] === 'disbursed'): ?>
                                     <button class="btn btn-outline-success" onclick="addPayment(<?= $loan['loan_id'] ?>)" title="Add Payment">
                                         <i class="bi bi-cash"></i>
                                     </button>
+                                    <?php endif; ?>
                                     <?php if ($loan['status'] === 'disbursed'): ?>
                                     <button class="btn btn-outline-warning" onclick="closeLoan(<?= $loan['loan_id'] ?>, '<?= htmlspecialchars($loan['loan_number']) ?>')" title="Close Loan">
                                         <i class="bi bi-x-circle"></i>
@@ -441,7 +443,7 @@ $customJS = <<<JS
         document.getElementById(id).addEventListener('input', calculateLoanSummary);
     });
     
-    // Continue in next comment due to length...
+    // Loan management functions
 </script>
 JS;
 

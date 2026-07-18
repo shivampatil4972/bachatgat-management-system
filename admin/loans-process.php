@@ -248,7 +248,7 @@ try {
                 
                 // Get pending installments
                 $pendingInstallments = $db->select(
-                    "SELECT * FROM installments WHERE loan_id = ? AND status IN ('pending', 'overdue') ORDER BY installment_number",
+                    "SELECT * FROM installments WHERE loan_id = ? AND status IN ('pending', 'partial', 'overdue') ORDER BY installment_number",
                     [$loanId]
                 ) ?: [];
                 

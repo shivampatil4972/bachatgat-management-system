@@ -27,7 +27,7 @@ require_once ROOT_PATH . 'includes/header.php';
 <!-- Welcome Card -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
+        <div class="card border-0 shadow-sm hover-lift" style="background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 1) 90%) !important; color: white; border-radius: 16px;">
             <div class="card-body p-4">
                 <h3 class="mb-2">Welcome back, <?= htmlspecialchars($_SESSION['full_name']) ?>! 👋</h3>
                 <p class="mb-0 opacity-75">Here's what's happening with your Bachat Gat today.</p>
@@ -83,14 +83,14 @@ require_once ROOT_PATH . 'includes/header.php';
     foreach ($stats as $stat):
     ?>
     <div class="col-md-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 hover-lift">
             <div class="card-body">
                 <div class="d-flex justify-content-between align-items-start mb-3">
                     <div>
                         <p class="text-muted mb-1 small"><?= $stat['title'] ?></p>
                         <h3 class="mb-0 fw-bold"><?= $stat['value'] ?></h3>
                     </div>
-                    <div class="stat-icon bg-<?= $stat['color'] ?> bg-opacity-10 text-<?= $stat['color'] ?> rounded p-3">
+                    <div class="icon-shape bg-<?= $stat['color'] ?> bg-opacity-10 text-<?= $stat['color'] ?> rounded-circle d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
                         <i class="bi <?= $stat['icon'] ?> fs-4"></i>
                     </div>
                 </div>
@@ -106,13 +106,13 @@ require_once ROOT_PATH . 'includes/header.php';
     <!-- Recent Transactions -->
     <div class="col-lg-8">
         <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-0 py-3">
+            <div class="card-header bg-transparent border-0 py-3">
                 <h5 class="mb-0 fw-bold">Recent Transactions</h5>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
-                        <thead class="table-light">
+                        <thead class="bg-transparent border-bottom border-light">
                             <tr>
                                 <th>Date</th>
                                 <th>Member</th>
@@ -126,7 +126,8 @@ require_once ROOT_PATH . 'includes/header.php';
                             $recentTransactions = $db->select(
                                 "SELECT t.*, u.full_name 
                                  FROM transactions t
-                                 JOIN users u ON t.user_id = u.user_id
+                                 JOIN members m ON t.member_id = m.member_id
+                                 JOIN users u ON m.user_id = u.user_id
                                  ORDER BY t.created_at DESC
                                  LIMIT 5"
                             );
@@ -137,9 +138,25 @@ require_once ROOT_PATH . 'includes/header.php';
                             <tr>
                                 <td><?= formatDate($txn['transaction_date']) ?></td>
                                 <td><?= htmlspecialchars($txn['full_name']) ?></td>
-                                <td><span class="badge bg-<?= $txn['transaction_type'] === 'credit' ? 'success' : 'danger' ?>"><?= ucfirst($txn['transaction_type']) ?></span></td>
+                                <td>
+                                    <?php
+                                    $typeColors = [
+                                        'saving_deposit' => 'success',
+                                        'loan_disbursement' => 'info',
+                                        'installment_payment' => 'primary',
+                                        'penalty' => 'warning',
+                                        'credit' => 'success',
+                                        'debit' => 'danger'
+                                    ];
+                                    $badgeColor = $typeColors[$txn['transaction_type']] ?? 'secondary';
+                                    $typeText = ucwords(str_replace('_', ' ', $txn['transaction_type']));
+                                    ?>
+                                    <span class="badge bg-<?= $badgeColor ?> bg-opacity-10 text-<?= $badgeColor ?> border border-<?= $badgeColor ?> border-opacity-10 px-3 py-2 rounded-pill fw-medium">
+                                        <?= $typeText ?>
+                                    </span>
+                                </td>
                                 <td><?= formatCurrency($txn['amount']) ?></td>
-                                <td><span class="badge bg-success">Completed</span></td>
+                                <td><span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-10 px-3 py-2 rounded-pill fw-medium">Completed</span></td>
                             </tr>
                             <?php 
                                 endforeach;
@@ -158,23 +175,23 @@ require_once ROOT_PATH . 'includes/header.php';
     
     <!-- Quick Actions -->
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-0 py-3">
+        <div class="card border-0 shadow-sm hover-lift">
+            <div class="card-header bg-transparent border-0 py-3">
                 <h5 class="mb-0 fw-bold">Quick Actions</h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="<?= BASE_URL ?>admin/members.php?action=add" class="btn btn-outline-primary">
-                        <i class="bi bi-person-plus me-2"></i>Add New Member
+                    <a href="<?= BASE_URL ?>admin/members.php?action=add" class="btn border-0 d-flex justify-content-start align-items-center p-3 mb-2 bg-primary bg-opacity-10 text-primary" style="border-radius: 12px;">
+                        <i class="bi bi-person-plus fs-5 me-3"></i><span class="fw-medium">Add New Member</span>
                     </a>
-                    <a href="<?= BASE_URL ?>admin/savings.php?action=add" class="btn btn-outline-success">
-                        <i class="bi bi-wallet2 me-2"></i>Record Savings
+                    <a href="<?= BASE_URL ?>admin/savings.php?action=add" class="btn border-0 d-flex justify-content-start align-items-center p-3 mb-2 bg-success bg-opacity-10 text-success" style="border-radius: 12px;">
+                        <i class="bi bi-wallet2 fs-5 me-3"></i><span class="fw-medium">Record Savings</span>
                     </a>
-                    <a href="<?= BASE_URL ?>admin/loans.php?action=add" class="btn btn-outline-info">
-                        <i class="bi bi-cash-coin me-2"></i>Approve Loan
+                    <a href="<?= BASE_URL ?>admin/loans.php?action=add" class="btn border-0 d-flex justify-content-start align-items-center p-3 mb-2 bg-info bg-opacity-10 text-info" style="border-radius: 12px;">
+                        <i class="bi bi-cash-coin fs-5 me-3"></i><span class="fw-medium">Approve Loan</span>
                     </a>
-                    <a href="<?= BASE_URL ?>admin/reports.php" class="btn btn-outline-secondary">
-                        <i class="bi bi-file-earmark-bar-graph me-2"></i>Generate Report
+                    <a href="<?= BASE_URL ?>admin/reports.php" class="btn border-0 d-flex justify-content-start align-items-center p-3 bg-secondary bg-opacity-10 text-secondary" style="border-radius: 12px;">
+                        <i class="bi bi-file-earmark-bar-graph fs-5 me-3"></i><span class="fw-medium">Generate Report</span>
                     </a>
                 </div>
                 
@@ -199,21 +216,11 @@ require_once ROOT_PATH . 'includes/header.php';
 </div>
 
 <style>
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    .icon-shape {
+        transition: transform 0.3s ease;
     }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    }
-    
-    .stat-icon {
-        width: 60px;
-        height: 60px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+    .card:hover .icon-shape {
+        transform: scale(1.1);
     }
 </style>
 

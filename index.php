@@ -31,6 +31,10 @@ require_once 'config/constants.php';
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="assets/css/ios-font.css">
     
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="assets/css/theme.css">
+    <script src="assets/js/theme-switcher.js" defer></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -64,12 +68,14 @@ require_once 'config/constants.php';
         .navbar {
             padding: 1rem 0;
             transition: all 0.3s ease;
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
         }
         
         .navbar.scrolled {
-            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
         
         .navbar-brand {
@@ -118,7 +124,7 @@ require_once 'config/constants.php';
         /* Hero Section */
         .hero-section {
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            background: transparent;
             position: relative;
             overflow: hidden;
             display: flex;
@@ -184,7 +190,7 @@ require_once 'config/constants.php';
         .hero-content {
             position: relative;
             z-index: 1;
-            color: white;
+            color: var(--dark-color);
             padding: 4rem 0;
         }
         
@@ -256,7 +262,7 @@ require_once 'config/constants.php';
         /* Features Section */
         .features-section {
             padding: 6rem 0;
-            background: var(--light-color);
+            background: transparent;
         }
         
         .section-title {
@@ -279,12 +285,15 @@ require_once 'config/constants.php';
         }
         
         .feature-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 2.5rem;
             text-align: center;
             transition: all 0.3s ease;
-            border: 1px solid #e5e7eb;
+            border: 1px solid rgba(255, 255, 255, 0.8);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.03);
             height: 100%;
         }
         
@@ -322,7 +331,7 @@ require_once 'config/constants.php';
         /* How It Works */
         .how-it-works-section {
             padding: 6rem 0;
-            background: white;
+            background: transparent;
         }
         
         .timeline {
@@ -376,7 +385,12 @@ require_once 'config/constants.php';
         /* CTA Section */
         .cta-section {
             padding: 6rem 0;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             text-align: center;
         }
@@ -466,9 +480,28 @@ require_once 'config/constants.php';
                 font-size: 1.1rem;
             }
             
+            .hero-content {
+                text-align: center;
+                padding-top: 6rem;
+            }
+            
+            .hero-buttons {
+                display: flex;
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
+            
+            .hero-buttons .btn {
+                margin: 0;
+                width: 100%;
+                max-width: 300px;
+            }
+            
             .hero-stats {
                 flex-direction: column;
                 gap: 1.5rem;
+                align-items: center;
             }
             
             .timeline-item,
@@ -489,7 +522,7 @@ require_once 'config/constants.php';
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg fixed-top" id="navbar">
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar" id="navbar">
         <div class="container">
             <a class="navbar-brand" href="index.php">
                 <i class="bi bi-piggy-bank-fill"></i> Bachat Gat
@@ -517,6 +550,11 @@ require_once 'config/constants.php';
                     <li class="nav-item">
                         <a href="auth/register.php" class="btn btn-primary-gradient ms-2">Get Started</a>
                     </li>
+                    <li class="nav-item">
+                        <button class="theme-toggle-btn ms-2 mt-1" aria-label="Toggle Theme">
+                            <i class="bi bi-moon-fill"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -533,15 +571,15 @@ require_once 'config/constants.php';
         <div class="container">
             <div class="row align-items-center">
                 <div class="col-lg-6 hero-content" data-aos="fade-right">
-                    <h1 class="hero-title">Manage Your Self-Help Group with Confidence</h1>
+                    <h1 class="hero-title ios-large-title">Manage Your Self-Help Group with Confidence</h1>
                     <p class="hero-subtitle">
                         Streamline savings, loans, and member management with our modern, secure, and easy-to-use digital platform. Built specifically for Bachat Gat communities.
                     </p>
                     <div class="hero-buttons">
-                        <a href="auth/register.php" class="btn btn-white">
+                        <a href="auth/register.php" class="btn btn-primary-gradient">
                             <i class="bi bi-rocket-takeoff me-2"></i>Start Free Today
                         </a>
-                        <a href="#features" class="btn btn-outline-white">
+                        <a href="#features" class="btn btn-outline-dark">
                             <i class="bi bi-play-circle me-2"></i>Learn More
                         </a>
                     </div>
@@ -563,7 +601,7 @@ require_once 'config/constants.php';
                 </div>
                 
                 <div class="col-lg-6" data-aos="fade-left">
-                    <img src="https://via.placeholder.com/600x500/667eea/ffffff?text=Dashboard+Preview" alt="Dashboard Preview" class="img-fluid rounded" style="box-shadow: 0 20px 60px rgba(0,0,0,0.3);">
+                    <img src="assets/images/dashboard-preview.png" alt="Dashboard Preview" class="img-fluid rounded" style="box-shadow: 0 20px 60px rgba(99,102,241,0.3); border-radius: 16px !important;">
                 </div>
             </div>
         </div>
@@ -706,15 +744,15 @@ require_once 'config/constants.php';
         <div class="container">
             <div class="row">
                 <div class="col-lg-4 mb-4">
-                    <h5><i class="bi bi-piggy-bank-fill"></i> Bachat Gat</h5>
+                    <h5><img src="assets/images/logo.png" alt="Bachat Gat" style="width: 32px; height: 32px; border-radius: 8px; margin-right: 8px;"> Bachat Gat</h5>
                     <p class="text-white-50">
                         Modern digital platform for Self-Help Group management. Simplify savings, loans, and member tracking.
                     </p>
                     <div class="social-icons">
-                        <a href="#" class="social-icon"><i class="bi bi-facebook"></i></a>
-                        <a href="#" class="social-icon"><i class="bi bi-twitter"></i></a>
-                        <a href="#" class="social-icon"><i class="bi bi-linkedin"></i></a>
-                        <a href="#" class="social-icon"><i class="bi bi-instagram"></i></a>
+                        <a href="javascript:void(0)" class="social-icon"><i class="bi bi-facebook"></i></a>
+                        <a href="javascript:void(0)" class="social-icon"><i class="bi bi-twitter"></i></a>
+                        <a href="javascript:void(0)" class="social-icon"><i class="bi bi-linkedin"></i></a>
+                        <a href="javascript:void(0)" class="social-icon"><i class="bi bi-instagram"></i></a>
                     </div>
                 </div>
                 
@@ -732,9 +770,7 @@ require_once 'config/constants.php';
                     <h5>Resources</h5>
                     <ul>
                         <li><a href="pages/help.php">Help Center</a></li>
-                        <li><a href="#">Documentation</a></li>
-                        <li><a href="#">API</a></li>
-                        <li><a href="#">Blog</a></li>
+                        <li><a href="pages/help.php">Documentation</a></li>
                     </ul>
                 </div>
                 
@@ -743,8 +779,6 @@ require_once 'config/constants.php';
                     <ul>
                         <li><a href="pages/privacy.php">Privacy Policy</a></li>
                         <li><a href="pages/terms.php">Terms of Service</a></li>
-                        <li><a href="#">Cookie Policy</a></li>
-                        <li><a href="#">Disclaimer</a></li>
                     </ul>
                 </div>
                 
@@ -753,7 +787,7 @@ require_once 'config/constants.php';
                     <ul>
                         <li><a href="auth/login.php">Login</a></li>
                         <li><a href="auth/register.php">Register</a></li>
-                        <li><a href="#">Forgot Password</a></li>
+                        <li><a href="auth/forgot-password.php">Forgot Password</a></li>
                     </ul>
                 </div>
             </div>

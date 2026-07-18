@@ -20,6 +20,10 @@ require_once '../config/constants.php';
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="../assets/css/ios-font.css">
     
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/theme-switcher.js" defer></script>
+    
     <style>
         :root {
             --primary-color: #0a84ff;
@@ -40,9 +44,11 @@ require_once '../config/constants.php';
         body {
             font-family: var(--font-stack);
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Animated Background Shapes */
@@ -59,34 +65,38 @@ require_once '../config/constants.php';
         .shape {
             position: absolute;
             border-radius: 50%;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
+            filter: blur(60px);
+            opacity: 0.4;
             animation: float 20s infinite;
         }
         
         .shape:nth-child(1) {
-            width: 300px;
-            height: 300px;
-            top: 10%;
-            left: 10%;
+            width: 400px;
+            height: 400px;
+            top: -10%;
+            left: -10%;
+            background: var(--primary-color);
             animation-delay: 0s;
         }
         
         .shape:nth-child(2) {
-            width: 200px;
-            height: 200px;
-            top: 60%;
-            right: 10%;
+            width: 300px;
+            height: 300px;
+            top: 50%;
+            right: -5%;
+            background: var(--secondary-color);
             animation-delay: 5s;
         }
         
         .shape:nth-child(3) {
-            width: 150px;
-            height: 150px;
-            bottom: 20%;
-            left: 50%;
+            width: 250px;
+            height: 250px;
+            bottom: -10%;
+            left: 30%;
+            background: #0ea5e9;
             animation-delay: 10s;
         }
+
         
         @keyframes float {
             0%, 100% {
@@ -107,21 +117,15 @@ require_once '../config/constants.php';
         .login-container {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
         
-        /* Glass Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.18);
-            backdrop-filter: blur(20px);
-            border-radius: 28px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 20px 45px rgba(10, 132, 255, 0.22);
-            padding: 3rem;
+        /* Card override */
+        .auth-card {
             width: 100%;
             max-width: 450px;
             animation: slideUp 0.6s ease-out;
@@ -174,15 +178,14 @@ require_once '../config/constants.php';
         }
         
         .logo-text {
-            color: white;
+            color: var(--text-primary);
             font-size: 1.75rem;
             font-weight: 700;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .logo-subtitle {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 400;
             margin-top: 0.25rem;
@@ -190,8 +193,8 @@ require_once '../config/constants.php';
         
         /* Form Styles */
         .form-label {
-            color: white;
-            font-weight: 500;
+            color: var(--text-primary);
+            font-weight: 600;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
         }
@@ -206,40 +209,17 @@ require_once '../config/constants.php';
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             font-size: 1.1rem;
             pointer-events: none;
             z-index: 2;
         }
         
         .form-control {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
             padding: 0.85rem 1rem 0.85rem 3rem;
-            color: white;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-        }
-        
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            color: white;
-            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.15);
-            outline: none;
-        }
-        
-        .form-control:-webkit-autofill,
-        .form-control:-webkit-autofill:hover,
-        .form-control:-webkit-autofill:focus {
-            -webkit-text-fill-color: white;
-            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.2) inset;
-            transition: background-color 5000s ease-in-out 0s;
         }
         
         /* Password Toggle */
@@ -248,7 +228,7 @@ require_once '../config/constants.php';
             right: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             cursor: pointer;
             font-size: 1.1rem;
             transition: color 0.3s ease;
@@ -256,7 +236,7 @@ require_once '../config/constants.php';
         }
         
         .password-toggle:hover {
-            color: white;
+            color: var(--text-primary);
         }
         
         /* Remember Me & Forgot Password */
@@ -268,22 +248,11 @@ require_once '../config/constants.php';
         }
         
         .form-check {
-            color: white;
+            color: var(--text-secondary);
         }
         
         .form-check-input {
-            background-color: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             cursor: pointer;
-        }
-        
-        .form-check-input:checked {
-            background-color: var(--primary-color);
-            border-color: var(--primary-color);
-        }
-        
-        .form-check-input:focus {
-            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.15);
         }
         
         .form-check-label {
@@ -292,10 +261,10 @@ require_once '../config/constants.php';
         }
         
         .forgot-link {
-            color: white;
+            color: var(--primary-color);
             text-decoration: none;
             font-size: 0.9rem;
-            transition: opacity 0.3s ease;
+            font-weight: 500;
         }
         
         .forgot-link:hover {
@@ -306,17 +275,14 @@ require_once '../config/constants.php';
         .btn-login {
             width: 100%;
             padding: 0.9rem;
-            background: linear-gradient(135deg, #fff, #f0f0f0);
-            color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
             border: none;
             border-radius: 12px;
             font-weight: 600;
             font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .btn-login:hover {
@@ -337,16 +303,14 @@ require_once '../config/constants.php';
         .register-link {
             text-align: center;
             margin-top: 1.5rem;
-            color: white;
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
         
         .register-link a {
-            color: white;
+            color: var(--primary-color);
             font-weight: 600;
             text-decoration: none;
-            border-bottom: 2px solid white;
-            transition: opacity 0.3s ease;
         }
         
         .register-link a:hover {
@@ -438,6 +402,12 @@ require_once '../config/constants.php';
             .logo-icon i {
                 font-size: 2rem;
             }
+            
+            .form-options {
+                flex-direction: column;
+                gap: 1rem;
+                align-items: center;
+            }
         }
     </style>
 </head>
@@ -449,13 +419,19 @@ require_once '../config/constants.php';
         <div class="shape"></div>
     </div>
     
+    <!-- Theme Toggle -->
+    <button class="theme-toggle-btn" aria-label="Toggle Theme" style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+        <i class="bi bi-moon-fill"></i>
+    </button>
+
     <!-- Login Container -->
     <div class="login-container">
-        <div class="glass-card">
-            <!-- Logo -->
+        <div class="card auth-card">
+            <div class="card-body">
+                <!-- Logo -->
             <div class="logo-container">
-                <div class="logo-icon">
-                    <i class="bi bi-piggy-bank-fill"></i>
+                <div class="logo-icon" style="overflow: hidden; padding: 0;">
+                    <img src="../assets/images/logo.png" alt="Bachat Gat" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
                 </div>
                 <h1 class="logo-text">Bachat Gat</h1>
                 <p class="logo-subtitle">Smart Management System</p>
@@ -522,11 +498,11 @@ require_once '../config/constants.php';
                     <span id="btnText">Login</span>
                 </button>
                 
-                <!-- Register Link -->
                 <div class="register-link">
-                    Don't have an account? <a href="<?= BASE_URL ?>auth/register.php">Register Now</a>
+                    Don't have an account? <a href="<?= BASE_URL ?>/auth/register.php">Register Now</a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
     

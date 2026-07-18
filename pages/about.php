@@ -14,6 +14,10 @@
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="../assets/css/ios-font.css">
     
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/theme-switcher.js" defer></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -27,11 +31,17 @@
         
         body {
             font-family: 'Inter', sans-serif;
+            color: var(--dark-color);
         }
         
         .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
         
         .navbar-brand {
@@ -42,10 +52,37 @@
             -webkit-text-fill-color: transparent;
         }
         
-        .page-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 5rem 0 3rem;
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+        
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
             color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            color: white;
+        }
+        
+        .page-header {
+            background: transparent;
+            padding: 8rem 0 3rem;
+            color: var(--dark-color);
             text-align: center;
         }
         
@@ -57,6 +94,7 @@
         
         .section {
             padding: 4rem 0;
+            background: transparent !important;
         }
         
         .section-title {
@@ -67,11 +105,21 @@
         }
         
         .mission-card {
-            background: white;
-            border-radius: 15px;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 20px;
             padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             height: 100%;
+            transition: all 0.3s ease;
+        }
+        
+        .mission-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(31, 38, 135, 0.08);
+            background: rgba(255, 255, 255, 0.85);
         }
         
         .mission-icon {
@@ -100,6 +148,18 @@
             background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         }
         
+        .cta-section {
+            padding: 6rem 0;
+            background: rgba(15, 23, 42, 0.85);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            margin: 2rem auto;
+            max-width: 1200px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: white;
+            text-align: center;
+        }
+
         .footer {
             background: var(--dark-color);
             color: white;
@@ -109,7 +169,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar">
         <div class="container">
             <a class="navbar-brand" href="../index.php">
                 <i class="bi bi-piggy-bank-fill"></i> Bachat Gat
@@ -118,7 +178,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">Home</a>
                     </li>
@@ -131,6 +191,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../auth/login.php">Login</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="../auth/register.php" class="btn btn-primary-gradient ms-2">Get Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="theme-toggle-btn ms-2 mt-1" aria-label="Toggle Theme">
+                            <i class="bi bi-moon-fill"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -139,7 +207,7 @@
     <!-- Page Header -->
     <div class="page-header">
         <div class="container">
-            <h1>About Bachat Gat</h1>
+            <h1 class="ios-large-title">About Bachat Gat</h1>
             <p class="lead">Empowering Self-Help Groups with Modern Technology</p>
         </div>
     </div>
@@ -161,7 +229,7 @@
                     </p>
                 </div>
                 <div class="col-lg-6">
-                    <img src="https://via.placeholder.com/600x400/667eea/ffffff?text=Our+Mission" alt="Our Mission" class="img-fluid rounded shadow">
+                    <img src="../assets/images/mission.png" alt="Our Mission" class="img-fluid rounded shadow" style="border-radius: 16px !important; box-shadow: 0 20px 40px rgba(0,0,0,0.15) !important;">
                 </div>
             </div>
         </div>
@@ -241,7 +309,7 @@
     </section>
     
     <!-- CTA -->
-    <section class="section" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+    <section class="cta-section">
         <div class="container text-center">
             <h2 class="mb-4">Ready to Get Started?</h2>
             <p class="lead mb-4">Join hundreds of successful Bachat Gats today</p>

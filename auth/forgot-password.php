@@ -21,8 +21,9 @@ require_once '../config/config.php';
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="../assets/css/ios-font.css">
     
-    <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/theme-switcher.js" defer></script>
     
     <style>
         :root {
@@ -43,9 +44,11 @@ require_once '../config/config.php';
         body {
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
-            background: linear-gradient(135deg, var(--gradient-start) 0%, var(--gradient-end) 100%);
             position: relative;
             overflow-x: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         /* Animated Background Shapes */
@@ -110,21 +113,15 @@ require_once '../config/config.php';
         .login-container {
             position: relative;
             z-index: 1;
-            min-height: 100vh;
+            width: 100%;
             display: flex;
             align-items: center;
             justify-content: center;
             padding: 20px;
         }
         
-        /* Glass Card */
-        .glass-card {
-            background: rgba(255, 255, 255, 0.15);
-            backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 1px solid rgba(255, 255, 255, 0.2);
-            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
-            padding: 3rem;
+        /* Card override */
+        .auth-card {
             width: 100%;
             max-width: 450px;
             animation: slideUp 0.6s ease-out;
@@ -165,22 +162,21 @@ require_once '../config/config.php';
         }
         
         .logo-text {
-            color: white;
+            color: var(--text-primary);
             font-size: 1.75rem;
             font-weight: 700;
             margin: 0;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
         }
         
         .logo-subtitle {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             font-size: 0.9rem;
             font-weight: 400;
             margin-top: 0.25rem;
         }
         
         .page-title {
-            color: white;
+            color: var(--text-primary);
             font-size: 1.5rem;
             font-weight: 600;
             text-align: center;
@@ -188,7 +184,7 @@ require_once '../config/config.php';
         }
         
         .page-description {
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             text-align: center;
             margin-bottom: 2rem;
             font-size: 0.95rem;
@@ -196,8 +192,8 @@ require_once '../config/config.php';
         
         /* Form Styles */
         .form-label {
-            color: white;
-            font-weight: 500;
+            color: var(--text-primary);
+            font-weight: 600;
             margin-bottom: 0.5rem;
             font-size: 0.95rem;
         }
@@ -212,57 +208,31 @@ require_once '../config/config.php';
             left: 16px;
             top: 50%;
             transform: translateY(-50%);
-            color: rgba(255, 255, 255, 0.7);
+            color: var(--text-secondary);
             font-size: 1.1rem;
             pointer-events: none;
             z-index: 2;
         }
         
         .form-control {
-            background: rgba(255, 255, 255, 0.2);
-            border: 1px solid rgba(255, 255, 255, 0.3);
             border-radius: 12px;
             padding: 0.85rem 1rem 0.85rem 3rem;
-            color: white;
             font-size: 0.95rem;
             transition: all 0.3s ease;
-        }
-        
-        .form-control::placeholder {
-            color: rgba(255, 255, 255, 0.6);
-        }
-        
-        .form-control:focus {
-            background: rgba(255, 255, 255, 0.25);
-            border-color: rgba(255, 255, 255, 0.5);
-            color: white;
-            box-shadow: 0 0 0 0.2rem rgba(255, 255, 255, 0.15);
-            outline: none;
-        }
-        
-        .form-control:-webkit-autofill,
-        .form-control:-webkit-autofill:hover,
-        .form-control:-webkit-autofill:focus {
-            -webkit-text-fill-color: white;
-            -webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.2) inset;
-            transition: background-color 5000s ease-in-out 0s;
         }
         
         /* Submit Button */
         .btn-submit {
             width: 100%;
             padding: 0.9rem;
-            background: linear-gradient(135deg, #fff, #f0f0f0);
-            color: var(--primary-color);
+            background: var(--primary-color);
+            color: white;
             border: none;
             border-radius: 12px;
             font-weight: 600;
             font-size: 1rem;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
             cursor: pointer;
             transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
         }
         
         .btn-submit:hover {
@@ -283,16 +253,14 @@ require_once '../config/config.php';
         .back-link {
             text-align: center;
             margin-top: 1.5rem;
-            color: white;
+            color: var(--text-secondary);
             font-size: 0.95rem;
         }
         
         .back-link a {
-            color: white;
+            color: var(--primary-color);
             font-weight: 600;
             text-decoration: none;
-            border-bottom: 2px solid white;
-            transition: opacity 0.3s ease;
         }
         
         .back-link a:hover {
@@ -380,9 +348,15 @@ require_once '../config/config.php';
         <div class="shape"></div>
     </div>
     
+    <!-- Theme Toggle -->
+    <button class="theme-toggle-btn" aria-label="Toggle Theme" style="position: absolute; top: 20px; right: 20px; z-index: 10;">
+        <i class="bi bi-moon-fill"></i>
+    </button>
+
     <!-- Main Container -->
     <div class="login-container">
-        <div class="glass-card">
+        <div class="card auth-card">
+            <div class="card-body">
             <!-- Logo -->
             <div class="logo-container">
                 <div class="logo-icon">
@@ -429,6 +403,7 @@ require_once '../config/config.php';
                     <a href="login.php"><i class="bi bi-arrow-left"></i> Back to Login</a>
                 </div>
             </form>
+            </div>
         </div>
     </div>
     

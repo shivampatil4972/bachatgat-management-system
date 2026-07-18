@@ -14,6 +14,10 @@
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="../assets/css/ios-font.css">
     
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="../assets/css/theme.css">
+    <script src="../assets/js/theme-switcher.js" defer></script>
+    
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
@@ -27,12 +31,17 @@
         
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--light-color);
+            color: var(--dark-color);
         }
         
         .navbar {
-            background: white;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.6) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.4);
+            box-shadow: 0 4px 24px rgba(0, 0, 0, 0.04);
         }
         
         .navbar-brand {
@@ -42,11 +51,38 @@
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
         }
+
+        .nav-link {
+            font-weight: 500;
+            color: var(--dark-color);
+            margin: 0 0.5rem;
+            transition: color 0.3s ease;
+        }
+        
+        .nav-link:hover {
+            color: var(--primary-color);
+        }
+
+        .btn-primary-gradient {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            color: white;
+            padding: 0.75rem 2rem;
+            border-radius: 10px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary-gradient:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3);
+            color: white;
+        }
         
         .page-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 5rem 0 3rem;
-            color: white;
+            background: transparent;
+            padding: 8rem 0 3rem;
+            color: var(--dark-color);
             text-align: center;
         }
         
@@ -61,20 +97,26 @@
         }
         
         .contact-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 20px;
             padding: 3rem;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             height: 100%;
         }
         
         .info-card {
-            background: white;
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 15px;
             padding: 2rem;
             text-align: center;
             margin-bottom: 1.5rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 8px 32px rgba(31, 38, 135, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.8);
         }
         
         .info-icon {
@@ -124,7 +166,7 @@
 </head>
 <body>
     <!-- Navigation -->
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar navbar-expand-lg fixed-top glass-navbar">
         <div class="container">
             <a class="navbar-brand" href="../index.php">
                 <i class="bi bi-piggy-bank-fill"></i> Bachat Gat
@@ -133,7 +175,7 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
+                <ul class="navbar-nav ms-auto align-items-center">
                     <li class="nav-item">
                         <a class="nav-link" href="../index.php">Home</a>
                     </li>
@@ -146,6 +188,14 @@
                     <li class="nav-item">
                         <a class="nav-link" href="../auth/login.php">Login</a>
                     </li>
+                    <li class="nav-item">
+                        <a href="../auth/register.php" class="btn btn-primary-gradient ms-2">Get Started</a>
+                    </li>
+                    <li class="nav-item">
+                        <button class="theme-toggle-btn ms-2 mt-1" aria-label="Toggle Theme">
+                            <i class="bi bi-moon-fill"></i>
+                        </button>
+                    </li>
                 </ul>
             </div>
         </div>
@@ -154,8 +204,8 @@
     <!-- Page Header -->
     <div class="page-header">
         <div class="container">
-            <h1>Get in Touch</h1>
-            <p class="lead">We'd love to hear from you. Send us a message!</p>
+            <h1 class="ios-large-title">Contact Us</h1>
+            <p class="lead">We're here to help and answer any question you might have</p>
         </div>
     </div>
     

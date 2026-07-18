@@ -207,15 +207,15 @@ $memberEngagement = $db->selectOne("
             <h2 class="mb-0"><?= $pageTitle ?></h2>
             <p class="text-muted">Comprehensive analytics and reports for decision making</p>
         </div>
-        <div class="col-md-4 text-end">
-            <div class="btn-group">
-                <button class="btn btn-primary" onclick="downloadPdfReport()">
-                    <i class="bi bi-printer me-2"></i>Print Report
-                </button>
-                <button class="btn btn-success" onclick="exportToExcel()">
-                    <i class="bi bi-file-earmark-excel me-2"></i>Export Excel
-                </button>
-            </div>
+        <div class="col-md-4 text-end d-flex justify-content-end align-items-center gap-2">
+            <button class="btn btn-primary d-inline-flex align-items-center gap-2 px-4 py-2" style="border-radius: 12px; font-weight: 600; height: 44px;" onclick="downloadPdfReport()">
+                <i class="bi bi-printer fs-5"></i>
+                <span>Print Report</span>
+            </button>
+            <button class="btn btn-success d-inline-flex align-items-center gap-2 px-4 py-2" style="border-radius: 12px; font-weight: 600; height: 44px;" onclick="exportToExcel()">
+                <i class="bi bi-file-earmark-excel fs-5"></i>
+                <span>Export Excel</span>
+            </button>
         </div>
     </div>
     
@@ -311,7 +311,7 @@ $memberEngagement = $db->selectOne("
                                 <i class="bi bi-exclamation-triangle fs-4"></i>
                             </div>
                         </div>
-                        <div class "flex-grow-1 ms-3">
+                        <div class="flex-grow-1 ms-3">
                             <h6 class="mb-1 text-muted">Outstanding</h6>
                             <h4 class="mb-0"><?= formatIndianCurrency($outstandingAmount) ?></h4>
                             <small class="text-muted">to be collected</small>
@@ -552,115 +552,131 @@ $memberEngagement = $db->selectOne("
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     // Chart.js default configuration
-    Chart.defaults.font.family = 'Inter';
-    Chart.defaults.color = '#6b7280';
+    Chart.defaults.font.family = '-apple-system, BlinkMacSystemFont, "SF Pro Text", Roboto, sans-serif';
     
-    // Colors
-    const primaryColor = getComputedStyle(document.documentElement).getPropertyValue('--primary-color').trim();
-    const successColor = getComputedStyle(document.documentElement).getPropertyValue('--success-color').trim();
-    const warningColor = getComputedStyle(document.documentElement).getPropertyValue('--warning-color').trim();
-    const dangerColor = getComputedStyle(document.documentElement).getPropertyValue('--danger-color').trim();
-    const infoColor = getComputedStyle(document.documentElement).getPropertyValue('--info-color').trim();
+    // Detect current theme
+    const isDark = document.documentElement.getAttribute('data-theme') === 'dark';
+    Chart.defaults.color = isDark ? '#a1a1aa' : '#6b7280';
+    
+    // Fixed theme-aware colors (CSS vars don't work inside Chart.js)
+    const primaryColor   = '#818cf8';
+    const successColor   = '#10b981';
+    const warningColor   = '#fbd38d';
+    const dangerColor    = '#ef4444';
+    const infoColor      = '#38bdf8';
+    const gridColor      = isDark ? 'rgba(255,255,255,0.06)' : 'rgba(0,0,0,0.06)';
     
     // ============================================
     // SAVINGS TREND CHART
     // ============================================
+    // Savings Trend Chart
     const savingsLabels = <?= json_encode(array_column($monthlySavings, 'month')) ?>;
-    const savingsData = <?= json_encode(array_column($monthlySavings, 'total')) ?>;
-    
-    new Chart(document.getElementById('savingsTrendChart'), {
-        type: 'line',
-        data: {
-            labels: savingsLabels,
-            datasets: [{
-                label: 'Monthly Savings',
-                data: savingsData,
-                borderColor: successColor,
-                backgroundColor: successColor + '20',
-                fill: true,
-                tension: 0.4
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
+    const savingsData   = <?= json_encode(array_map('floatval', array_column($monthlySavings, 'total'))) ?>;
+
+    if (savingsLabels.length === 0) {
+        document.getElementById('savingsTrendChart').parentElement.innerHTML =
+            '<div class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">' +
+            '<i class="bi bi-bar-chart-line fs-1 mb-3" style="opacity:0.3"></i>' +
+            '<p class="mb-0 fw-medium">No savings data in the last 6 months</p>' +
+            '<small>Savings deposits will appear here once recorded</small></div>';
+    } else {
+        new Chart(document.getElementById('savingsTrendChart'), {
+            type: 'line',
+            data: {
+                labels: savingsLabels,
+                datasets: [{
+                    label: 'Monthly Savings (₹)',
+                    data: savingsData,
+                    borderColor: successColor,
+                    backgroundColor: 'rgba(16,185,129,0.12)',
+                    borderWidth: 3,
+                    pointBackgroundColor: successColor,
+                    pointRadius: 5,
+                    pointHoverRadius: 8,
+                    fill: true,
+                    tension: 0.4
+                }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        callback: function(value) {
-                            return '₹' + value.toLocaleString();
+            options: {
+                responsive: true,
+                maintainAspectRatio: true,
+                interaction: { mode: 'index', intersect: false },
+                plugins: {
+                    legend: { display: false },
+                    tooltip: {
+                        callbacks: {
+                            label: ctx => ' ₹' + ctx.raw.toLocaleString('en-IN')
+                        }
+                    }
+                },
+                scales: {
+                    x: { grid: { color: gridColor } },
+                    y: {
+                        beginAtZero: true,
+                        grid: { color: gridColor },
+                        ticks: {
+                            callback: value => '₹' + Number(value).toLocaleString('en-IN')
                         }
                     }
                 }
             }
-        }
-    });
+        });
+    }
     
     // ============================================
     // SAVINGS BY TYPE CHART
     // ============================================
+    // Savings by Type Chart
     const savingsTypeLabels = <?= json_encode(array_column($savingsByType, 'transaction_type')) ?>;
-    const savingsTypeData = <?= json_encode(array_column($savingsByType, 'total')) ?>;
-    
-    new Chart(document.getElementById('savingsTypeChart'), {
-        type: 'doughnut',
-        data: {
-            labels: savingsTypeLabels.map(label => label.replace('_', ' ').toUpperCase()),
-            datasets: [{
-                data: savingsTypeData,
-                backgroundColor: [primaryColor, successColor, warningColor, infoColor, dangerColor]
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
+    const savingsTypeData   = <?= json_encode(array_map('floatval', array_column($savingsByType, 'total'))) ?>;
+
+    if (savingsTypeLabels.length === 0) {
+        document.getElementById('savingsTypeChart').parentElement.innerHTML =
+            '<div class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">' +
+            '<i class="bi bi-pie-chart fs-1 mb-3" style="opacity:0.3"></i>' +
+            '<p class="mb-0 fw-medium">No savings data in selected period</p>' +
+            '<small>Adjust the date range to see savings by type</small></div>';
+    } else {
+        new Chart(document.getElementById('savingsTypeChart'), {
+            type: 'doughnut',
+            data: {
+                labels: savingsTypeLabels.map(l => l.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase())),
+                datasets: [{ data: savingsTypeData, backgroundColor: [primaryColor, successColor, warningColor, infoColor, dangerColor], borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: { legend: { position: 'bottom' } }
             }
-        }
-    });
+        });
+    }
     
     // ============================================
     // LOAN STATUS CHART
     // ============================================
+    // Loan Status Chart
     const loanStatusLabels = <?= json_encode(array_column($loansByStatus, 'status')) ?>;
-    const loanStatusData = <?= json_encode(array_column($loansByStatus, 'count')) ?>;
-    const statusColors = {
-        'pending': warningColor,
-        'approved': infoColor,
-        'active': successColor,
-        'completed': primaryColor,
-        'rejected': dangerColor,
-        'closed': '#6b7280'
-    };
-    
-    new Chart(document.getElementById('loanStatusChart'), {
-        type: 'doughnut',
-        data: {
-            labels: loanStatusLabels.map(label => label.charAt(0).toUpperCase() + label.slice(1)),
-            datasets: [{
-                data: loanStatusData,
-                backgroundColor: loanStatusLabels.map(status => statusColors[status] || '#6b7280')
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    position: 'bottom'
-                }
+    const loanStatusData   = <?= json_encode(array_map('intval', array_column($loansByStatus, 'count'))) ?>;
+    const statusColors = { 'pending': warningColor, 'approved': infoColor, 'active': successColor, 'disbursed': successColor, 'completed': primaryColor, 'rejected': dangerColor, 'closed': '#6b7280' };
+
+    if (loanStatusLabels.length === 0) {
+        document.getElementById('loanStatusChart').parentElement.innerHTML =
+            '<div class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">' +
+            '<i class="bi bi-pie-chart fs-1 mb-3" style="opacity:0.3"></i>' +
+            '<p class="mb-0 fw-medium">No loan data available</p>' +
+            '<small>Loan status distribution will appear here once loans exist</small></div>';
+    } else {
+        new Chart(document.getElementById('loanStatusChart'), {
+            type: 'doughnut',
+            data: {
+                labels: loanStatusLabels.map(l => l.charAt(0).toUpperCase() + l.slice(1)),
+                datasets: [{ data: loanStatusData, backgroundColor: loanStatusLabels.map(s => statusColors[s] || '#6b7280'), borderWidth: 2 }]
+            },
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: { legend: { position: 'bottom' } }
             }
-        }
-    });
+        });
+    }
     
     // ============================================
     // COLLECTION EFFICIENCY CHART
@@ -699,38 +715,33 @@ document.addEventListener('DOMContentLoaded', function() {
     // ============================================
     // MEMBER GROWTH CHART
     // ============================================
+    // Member Growth Chart
     const memberGrowthLabels = <?= json_encode(array_column($memberGrowth, 'month')) ?>;
-    const memberGrowthData = <?= json_encode(array_column($memberGrowth, 'count')) ?>;
-    
-    new Chart(document.getElementById('memberGrowthChart'), {
-        type: 'bar',
-        data: {
-            labels: memberGrowthLabels,
-            datasets: [{
-                label: 'New Members',
-                data: memberGrowthData,
-                backgroundColor: primaryColor,
-                borderRadius: 6
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: true,
-            plugins: {
-                legend: {
-                    display: false
-                }
+    const memberGrowthData   = <?= json_encode(array_map('intval', array_column($memberGrowth, 'count'))) ?>;
+
+    if (memberGrowthLabels.length === 0) {
+        document.getElementById('memberGrowthChart').parentElement.innerHTML =
+            '<div class="d-flex flex-column align-items-center justify-content-center py-5 text-muted">' +
+            '<i class="bi bi-bar-chart fs-1 mb-3" style="opacity:0.3"></i>' +
+            '<p class="mb-0 fw-medium">No member growth data yet</p>' +
+            '<small>Member join activity will appear here over time</small></div>';
+    } else {
+        new Chart(document.getElementById('memberGrowthChart'), {
+            type: 'bar',
+            data: {
+                labels: memberGrowthLabels,
+                datasets: [{ label: 'New Members', data: memberGrowthData, backgroundColor: primaryColor + 'cc', borderRadius: 8 }]
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    ticks: {
-                        stepSize: 1
-                    }
+            options: {
+                responsive: true, maintainAspectRatio: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { grid: { color: gridColor } },
+                    y: { beginAtZero: true, grid: { color: gridColor }, ticks: { stepSize: 1 } }
                 }
             }
-        }
-    });
+        });
+    }
 });
 
 const reportMeta = {

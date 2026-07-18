@@ -1,0 +1,332 @@
+/* 
+ * Global iOS-inspired Theme System 
+ * Supports Light & Dark Mode via [data-theme] attribute
+ */
+
+ :root,
+ [data-theme="light"] {
+     /* Colors - Modern Indigo/Violet Accent */
+     --primary-color: #6366f1; /* Premium Indigo */
+     --primary-hover: #4f46e5;
+     --secondary-color: #8b5cf6;
+     --success-color: #10b981;
+     --danger-color: #ef4444;
+     --warning-color: #f59e0b;
+     --info-color: #0ea5e9;
+     
+     /* Backgrounds & Surfaces - Light Glass */
+     --bg-color: #f8fafc;
+     --bg-mesh: radial-gradient(at 0% 0%, hsla(253,16%,93%,1) 0, transparent 50%), radial-gradient(at 50% 0%, hsla(225,39%,90%,1) 0, transparent 50%), radial-gradient(at 100% 0%, hsla(339,49%,93%,1) 0, transparent 50%);
+     --surface-color: rgba(255, 255, 255, 0.85); /* Frosty translucent white */
+     --surface-hover: rgba(255, 255, 255, 0.95);
+     --glass-bg: rgba(255, 255, 255, 0.85);
+     --navbar-bg: rgba(255, 255, 255, 0.85);
+     
+     /* Typography */
+     --text-primary: #0f172a;
+     --text-secondary: #64748b;
+     --text-inverse: #ffffff;
+     
+     /* Borders & Shadows - Bento Box shadows */
+     --border-color: rgba(0, 0, 0, 0.05);
+     --card-border: 1px solid rgba(255, 255, 255, 0.4); /* Edge highlight */
+     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.02);
+     --shadow-md: 0 8px 16px rgba(0, 0, 0, 0.03), 0 2px 4px rgba(0, 0, 0, 0.02);
+     --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.04), 0 8px 16px rgba(0, 0, 0, 0.03);
+ }
+ 
+ [data-theme="dark"] {
+     /* Colors - Modern Indigo/Violet Accent */
+     --primary-color: #818cf8; /* Softer indigo for dark mode */
+     --primary-hover: #6366f1;
+     --secondary-color: #a78bfa;
+     --success-color: #10b981;
+     --danger-color: #ef4444;
+     --warning-color: #fbd38d;
+     --info-color: #38bdf8;
+     
+     /* Backgrounds & Surfaces - Deep Glass */
+     --bg-color: #0b0c10; /* Very deep slate/black */
+     --bg-mesh: radial-gradient(at 0% 0%, hsla(245, 40%, 15%, 0.5) 0, transparent 50%), radial-gradient(at 100% 100%, hsla(260, 40%, 15%, 0.5) 0, transparent 50%);
+     --surface-color: rgba(28, 28, 35, 0.65); /* Translucent dark slate */
+     --surface-hover: rgba(35, 35, 45, 0.75);
+     --glass-bg: rgba(28, 28, 35, 0.65);
+     --navbar-bg: rgba(20, 20, 25, 0.75);
+     
+     /* Typography */
+     --text-primary: #f8fafc; /* Crisp, bright white for impressive contrast */
+     --text-secondary: #a1a1aa; /* Professional muted grey */
+     --text-inverse: #09090b;
+     
+     /* Borders & Shadows */
+     --border-color: rgba(255, 255, 255, 0.05);
+     --card-border: 1px solid rgba(255, 255, 255, 0.08); /* Physical glass edge */
+     --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.8);
+     --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.6), 0 2px 8px rgba(0, 0, 0, 0.4);
+     --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.8), 0 8px 16px rgba(0, 0, 0, 0.6);
+ }
+ 
+ /* Apply global styles */
+ body {
+     background-color: var(--bg-color);
+     background-image: var(--bg-mesh) !important;
+     background-attachment: fixed;
+     color: var(--text-primary);
+     font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Segoe UI", Roboto, Helvetica, Arial, sans-serif !important;
+     -webkit-font-smoothing: antialiased;
+     transition: background-color 0.3s ease, color 0.3s ease;
+     margin: 0;
+     min-height: 100vh;
+ }
+ 
+ /* Typography */
+ h1, h2, h3, h4, h5, h6 {
+     color: var(--text-primary);
+     font-weight: 700;
+     letter-spacing: -0.02em;
+ }
+ 
+ .ios-large-title {
+     font-size: 34px;
+     font-weight: 800;
+     letter-spacing: -0.04em;
+     margin-bottom: 16px;
+ }
+ 
+ p, span, div {
+     color: inherit;
+ }
+ 
+ .text-muted {
+     color: var(--text-secondary) !important;
+ }
+ 
+ /* iOS Surfaces & Cards */
+ .card, .ios-card {
+     background-color: var(--surface-color) !important;
+     border-radius: 16px !important; /* Premium Bento Box rounding */
+     border: var(--card-border) !important;
+     box-shadow: var(--shadow-md) !important;
+     transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+     backdrop-filter: blur(20px) saturate(150%) !important;
+     -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+     color: var(--text-primary) !important;
+ }
+ 
+ .card:hover, .ios-card:hover {
+     box-shadow: var(--shadow-lg), 0 0 40px rgba(99, 102, 241, 0.1) !important; /* Ambient Indigo Glow */
+     transform: translateY(-4px) scale(1.01);
+     background-color: var(--surface-hover) !important;
+ }
+ 
+ .card-body {
+     padding: 24px !important;
+ }
+ 
+ /* iOS Frosted Glass */
+ .glass-navbar, .topbar {
+     background-color: var(--navbar-bg) !important;
+     backdrop-filter: blur(12px) !important;
+     -webkit-backdrop-filter: blur(12px) !important;
+     border-bottom: var(--card-border) !important;
+ }
+ 
+ .sidebar {
+     background-color: var(--surface-color) !important;
+     border-right: var(--card-border) !important;
+     backdrop-filter: none !important;
+     -webkit-backdrop-filter: none !important;
+ }
+ 
+ .sidebar-title {
+     color: var(--text-primary) !important;
+ }
+ 
+ .sidebar-subtitle {
+     color: var(--text-secondary) !important;
+ }
+ 
+ .menu-link {
+     color: var(--text-secondary) !important;
+ }
+ 
+ .menu-link:hover, .menu-link.active {
+     background-color: var(--surface-hover) !important;
+     color: var(--primary-color) !important;
+ }
+ 
+ .menu-divider {
+     background-color: var(--border-color) !important;
+ }
+ 
+ .form-control, .form-select {
+     background-color: rgba(0, 0, 0, 0.2) !important;
+     border: 1px solid var(--border-color) !important;
+     color: var(--text-primary) !important;
+     border-radius: 12px !important;
+     backdrop-filter: blur(10px) !important;
+     -webkit-backdrop-filter: blur(10px) !important;
+ }
+ 
+ [data-theme="light"] .form-control, [data-theme="light"] .form-select {
+     background-color: rgba(255, 255, 255, 0.5) !important;
+ }
+ 
+ /* Placeholder visibility */
+ .form-control::placeholder {
+     color: var(--text-secondary) !important;
+     opacity: 0.8;
+ }
+ 
+ /* Input icons inside auth pages */
+ .input-icon {
+     color: var(--text-secondary) !important;
+     z-index: 5;
+ }
+ 
+ .form-control:focus, .form-select:focus {
+     border-color: var(--primary-color) !important;
+     box-shadow: 0 0 0 3px rgba(0, 122, 255, 0.2) !important;
+     background-color: var(--surface-color) !important;
+ }
+ 
+ /* Buttons */
+ .btn {
+     border-radius: 12px !important;
+     font-weight: 600 !important;
+     padding: 10px 20px !important;
+     letter-spacing: -0.02em;
+ }
+ 
+ .btn-primary, .btn-primary-gradient {
+     background: var(--primary-color) !important;
+     color: #fff !important;
+     border: none !important;
+     box-shadow: none !important;
+ }
+ 
+ .btn-primary:hover, .btn-primary-gradient:hover {
+     background: var(--primary-hover) !important;
+     transform: scale(0.98);
+ }
+ 
+ .btn-light, .btn-outline-dark {
+     background-color: var(--surface-hover) !important;
+     color: var(--text-primary) !important;
+     border: 1px solid var(--border-color) !important;
+ }
+ 
+ .btn-light:hover, .btn-outline-dark:hover {
+     background-color: var(--border-color) !important;
+ }
+ 
+ /* Override inline styles from PHP files */
+ .hero-section, .page-header, .cta-section {
+     background: var(--bg-color) !important;
+     color: var(--text-primary) !important;
+ }
+ 
+ .cta-section {
+     border: 1px solid var(--border-color) !important;
+     background: var(--surface-color) !important;
+ }
+ 
+ .hero-content, .section-title {
+     color: var(--text-primary) !important;
+ }
+ 
+ .feature-card, .mission-card, .contact-card, .info-card {
+     background-color: var(--surface-color) !important;
+     border: 1px solid var(--border-color) !important;
+     box-shadow: var(--shadow-sm) !important;
+     border-radius: 18px !important;
+     color: var(--text-primary) !important;
+     backdrop-filter: none !important;
+     -webkit-backdrop-filter: none !important;
+ }
+ 
+ .navbar-brand {
+     color: var(--text-primary) !important;
+     background: none !important;
+     -webkit-text-fill-color: var(--text-primary) !important;
+ }
+ 
+ .nav-link {
+     color: var(--text-secondary) !important;
+ }
+ 
+ .nav-link:hover {
+     color: var(--primary-color) !important;
+ }
+ 
+ .footer {
+     background-color: var(--surface-color) !important;
+     border-top: 1px solid var(--border-color) !important;
+     color: var(--text-primary) !important;
+ }
+ 
+ .footer a {
+     color: var(--text-secondary) !important;
+ }
+ 
+ .footer a:hover {
+     color: var(--primary-color) !important;
+ }
+ 
+ /* Theme Toggler Button */
+ .theme-toggle-btn {
+     background: none;
+     border: none;
+     color: var(--text-primary);
+     font-size: 1.25rem;
+     cursor: pointer;
+     padding: 0.5rem;
+     border-radius: 50%;
+     transition: background-color 0.2s;
+     display: flex;
+     align-items: center;
+     justify-content: center;
+ }
+ 
+ .theme-toggle-btn:hover {
+     background-color: var(--surface-hover);
+ }
+ 
+ /* Tables */
+ .table {
+     color: var(--text-primary) !important;
+     --bs-table-bg: transparent;
+     --bs-table-color: var(--text-primary);
+     --bs-table-striped-color: var(--text-primary);
+     --bs-table-striped-bg: rgba(0, 0, 0, 0.02);
+     --bs-table-active-color: var(--text-primary);
+     --bs-table-active-bg: rgba(0, 0, 0, 0.04);
+     --bs-table-hover-color: var(--text-primary);
+     --bs-table-hover-bg: var(--surface-hover);
+     border-color: var(--border-color);
+ }
+ 
+ [data-theme="dark"] .table {
+     --bs-table-striped-bg: rgba(255, 255, 255, 0.02);
+     --bs-table-active-bg: rgba(255, 255, 255, 0.05);
+ }
+
+ /* Utility Overrides for Glassmorphism */
+ .bg-white,
+ .bg-light,
+ [data-theme="dark"] .bg-white,
+ [data-theme="dark"] .bg-light {
+     background-color: var(--surface-color) !important;
+     backdrop-filter: blur(20px) saturate(150%) !important;
+     -webkit-backdrop-filter: blur(20px) saturate(150%) !important;
+ }
+ 
+ [data-theme="dark"] .text-dark {
+     color: var(--text-primary) !important;
+ }
+ 
+ [data-theme="dark"] .card-header,
+ [data-theme="dark"] .card-footer {
+     background-color: transparent !important;
+     border-color: var(--border-color) !important;
+ }

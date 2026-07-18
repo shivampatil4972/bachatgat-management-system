@@ -105,11 +105,7 @@ class AuthController {
                 setRememberMeCookie($user['user_id'], $token);
             }
             
-            // Update last login
-            $this->db->update(
-                "UPDATE users SET last_login = NOW() WHERE user_id = ?",
-                [$user['user_id']]
-            );
+
             
             return [
                 'success' => true,

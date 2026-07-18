@@ -298,6 +298,7 @@ $stats = is_array($activeLoanStats) ? $activeLoanStats : [
                                         $statusBadges = [
                                             'paid' => 'success',
                                             'pending' => 'warning',
+                                            'partial' => 'info',
                                             'overdue' => 'danger',
                                             'waived' => 'secondary'
                                         ];

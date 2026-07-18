@@ -40,16 +40,16 @@ require_once ROOT_PATH . 'includes/header.php';
 <!-- Welcome Card -->
 <div class="row mb-4">
     <div class="col-12">
-        <div class="card border-0 shadow-sm" style="background: linear-gradient(135deg, var(--primary-color), var(--secondary-color)); color: white;">
-            <div class="card-body p-4">
-                <div class="d-flex justify-content-between align-items-center">
+        <div class="card border-0 hover-lift" style="background: radial-gradient(circle at 10% 20%, rgba(99, 102, 241, 1) 0%, rgba(139, 92, 246, 1) 90%) !important; color: white;">
+            <div class="card-body p-4 p-md-5">
+                <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
                     <div>
-                        <h3 class="mb-2">Welcome, <?= htmlspecialchars($_SESSION['full_name']) ?>! 👋</h3>
-                        <p class="mb-0 opacity-75">Member Code: <strong><?= $member['member_code'] ?></strong></p>
+                        <h3 class="mb-2 fw-bold">Welcome, <?= htmlspecialchars($_SESSION['full_name']) ?>! 👋</h3>
+                        <p class="mb-0 opacity-75 fs-5">Member Code: <strong><?= $member['member_code'] ?></strong></p>
                     </div>
-                    <div class="text-end">
-                        <p class="mb-1 opacity-75">Member Since</p>
-                        <h5 class="mb-0"><?= formatDate($member['joining_date']) ?></h5>
+                    <div class="text-md-end bg-black bg-opacity-10 rounded-3 p-3 text-center border border-white border-opacity-25">
+                        <p class="mb-1 opacity-75 text-uppercase small tracking-wide">Member Since</p>
+                        <h5 class="mb-0 fw-bold"><?= formatDate($member['joining_date']) ?></h5>
                     </div>
                 </div>
             </div>
@@ -94,14 +94,14 @@ require_once ROOT_PATH . 'includes/header.php';
     foreach ($stats as $stat):
     ?>
     <div class="col-md-6 col-lg-3">
-        <div class="card border-0 shadow-sm h-100">
+        <div class="card border-0 shadow-sm h-100 hover-lift" style="border-radius: 12px;">
             <div class="card-body">
-                <div class="d-flex justify-content-between align-items-start mb-3">
+                <div class="d-flex justify-content-between align-items-center mb-3">
                     <div>
                         <p class="text-muted mb-1 small"><?= $stat['title'] ?></p>
                         <h3 class="mb-0 fw-bold"><?= $stat['value'] ?></h3>
                     </div>
-                    <div class="stat-icon bg-<?= $stat['color'] ?> bg-opacity-10 text-<?= $stat['color'] ?> rounded p-3">
+                    <div class="icon-shape bg-<?= $stat['color'] ?> bg-opacity-10 text-<?= $stat['color'] ?> rounded-circle d-flex align-items-center justify-content-center" style="width: 48px; height: 48px;">
                         <i class="bi <?= $stat['icon'] ?> fs-4"></i>
                     </div>
                 </div>
@@ -116,20 +116,20 @@ require_once ROOT_PATH . 'includes/header.php';
 <div class="row g-4">
     <!-- Recent Transactions -->
     <div class="col-lg-8">
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-0 py-3 d-flex justify-content-between align-items-center">
+        <div class="card border-0 shadow-sm hover-lift" style="border-radius: 12px;">
+            <div class="card-header border-0 py-3 d-flex justify-content-between align-items-center rounded-top-3" style="background-color: var(--surface-color);">
                 <h5 class="mb-0 fw-bold">Recent Transactions</h5>
                 <a href="<?= BASE_URL ?>member/transactions.php" class="btn btn-sm btn-outline-primary">View All</a>
             </div>
             <div class="card-body p-0">
                 <div class="table-responsive">
                     <table class="table table-hover mb-0">
-                        <thead class="table-light">
+                        <thead style="border-bottom: 2px solid var(--border-color);">
                             <tr>
-                                <th>Date</th>
-                                <th>Description</th>
-                                <th>Type</th>
-                                <th>Amount</th>
+                                <th class="border-0 text-muted fw-semibold py-3">Date</th>
+                                <th class="border-0 text-muted fw-semibold py-3">Description</th>
+                                <th class="border-0 text-muted fw-semibold py-3">Type</th>
+                                <th class="border-0 text-muted fw-semibold py-3">Amount</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -146,14 +146,20 @@ require_once ROOT_PATH . 'includes/header.php';
                                 foreach ($recentTransactions as $txn):
                             ?>
                             <tr>
-                                <td><?= formatDate($txn['transaction_date']) ?></td>
-                                <td><?= htmlspecialchars($txn['description']) ?></td>
-                                <td>
-                                    <span class="badge bg-<?= in_array($txn['transaction_type'], ['saving_deposit','loan_disbursement']) ? 'success' : 'danger' ?>">
-                                        <?= in_array($txn['transaction_type'], ['saving_deposit','loan_disbursement']) ? '+ Credit' : '- Debit' ?>
-                                    </span>
+                                <td class="py-3 bg-transparent"><?= formatDate($txn['transaction_date']) ?></td>
+                                <td class="py-3 fw-medium bg-transparent"><?= htmlspecialchars($txn['description']) ?></td>
+                                <td class="py-3 bg-transparent">
+                                    <?php if(in_array($txn['transaction_type'], ['saving_deposit','loan_disbursement'])): ?>
+                                        <span class="badge bg-success bg-opacity-10 text-success border border-success border-opacity-10 px-3 py-2 rounded-pill fw-medium">
+                                            <i class="bi bi-arrow-down-left me-1"></i> Credit
+                                        </span>
+                                    <?php else: ?>
+                                        <span class="badge bg-danger bg-opacity-10 text-danger border border-danger border-opacity-10 px-3 py-2 rounded-pill fw-medium">
+                                            <i class="bi bi-arrow-up-right me-1"></i> Debit
+                                        </span>
+                                    <?php endif; ?>
                                 </td>
-                                <td class="fw-bold"><?= formatCurrency($txn['amount']) ?></td>
+                                <td class="py-3 fw-bold text-<?= in_array($txn['transaction_type'], ['saving_deposit','loan_disbursement']) ? 'success' : 'danger' ?> bg-transparent"><?= formatCurrency($txn['amount']) ?></td>
                             </tr>
                             <?php 
                                 endforeach;
@@ -175,8 +181,8 @@ require_once ROOT_PATH . 'includes/header.php';
     
     <!-- Loan Summary & Quick Links -->
     <div class="col-lg-4">
-        <div class="card border-0 shadow-sm mb-4">
-            <div class="card-header bg-white border-0 py-3">
+        <div class="card border-0 shadow-sm mb-4 hover-lift" style="border-radius: 12px;">
+            <div class="card-header border-0 py-3 rounded-top-3" style="background-color: var(--surface-color);">
                 <h5 class="mb-0 fw-bold">Active Loans</h5>
             </div>
             <div class="card-body">
@@ -226,20 +232,20 @@ require_once ROOT_PATH . 'includes/header.php';
         </div>
         
         <!-- Quick Links -->
-        <div class="card border-0 shadow-sm">
-            <div class="card-header bg-white border-0 py-3">
+        <div class="card border-0 shadow-sm hover-lift" style="border-radius: 12px;">
+            <div class="card-header border-0 py-3 rounded-top-3" style="background-color: var(--surface-color);">
                 <h5 class="mb-0 fw-bold">Quick Links</h5>
             </div>
             <div class="card-body">
                 <div class="d-grid gap-2">
-                    <a href="<?= BASE_URL ?>member/my-savings.php" class="btn btn-outline-success btn-sm">
-                        <i class="bi bi-wallet2 me-2"></i>View My Savings
+                    <a href="<?= BASE_URL ?>member/my-savings.php" class="btn border-0 d-flex justify-content-start align-items-center p-3 mb-2 bg-success bg-opacity-10 text-success" style="border-radius: 12px;">
+                        <i class="bi bi-wallet2 fs-5 me-3"></i><span class="fw-medium">View My Savings</span>
                     </a>
-                    <a href="<?= BASE_URL ?>member/my-loans.php" class="btn btn-outline-info btn-sm">
-                        <i class="bi bi-cash-coin me-2"></i>My Loans
+                    <a href="<?= BASE_URL ?>member/my-loans.php" class="btn border-0 d-flex justify-content-start align-items-center p-3 mb-2 bg-info bg-opacity-10 text-info" style="border-radius: 12px;">
+                        <i class="bi bi-cash-coin fs-5 me-3"></i><span class="fw-medium">My Loans</span>
                     </a>
-                    <a href="<?= BASE_URL ?>member/profile.php" class="btn btn-outline-primary btn-sm">
-                        <i class="bi bi-person me-2"></i>Edit Profile
+                    <a href="<?= BASE_URL ?>member/profile.php" class="btn border-0 d-flex justify-content-start align-items-center p-3 bg-primary bg-opacity-10 text-primary" style="border-radius: 12px;">
+                        <i class="bi bi-person fs-5 me-3"></i><span class="fw-medium">Edit Profile</span>
                     </a>
                 </div>
             </div>
@@ -248,21 +254,16 @@ require_once ROOT_PATH . 'includes/header.php';
 </div>
 
 <style>
-    .card {
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    
-    .card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1) !important;
-    }
-    
     .stat-icon {
         width: 60px;
         height: 60px;
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+    
+    .tracking-wide {
+        letter-spacing: 0.05em;
     }
 </style>
 

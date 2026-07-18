@@ -82,7 +82,7 @@ define('DB_CHARSET', 'utf8mb4');
 define('APP_NAME', 'Bachat Gat Smart Management');
 define('APP_SHORT_NAME', 'Bachat Gat');
 define('APP_VERSION', '1.0.0');
-define('APP_AUTHOR', 'Your Name');
+define('APP_AUTHOR', 'Bachat Gat Team');
 define('APP_DESCRIPTION', 'Self-Help Group Financial Management System');
 
 // ========================================

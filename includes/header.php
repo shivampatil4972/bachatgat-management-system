@@ -41,6 +41,10 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <!-- Global iPhone Font -->
     <link rel="stylesheet" href="<?= ASSETS_URL ?>css/ios-font.css">
     
+    <!-- iOS Theme System -->
+    <link rel="stylesheet" href="<?= ASSETS_URL ?>css/theme.css">
+    <script src="<?= ASSETS_URL ?>js/theme-switcher.js" defer></script>
+    
     <!-- Chart.js (if needed) -->
     <?php if (isset($includeCharts) && $includeCharts): ?>
     <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
@@ -54,17 +58,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <!-- Custom CSS -->
     <style>
         :root {
-            --primary-color: #0a84ff;
-            --secondary-color: #5e5ce6;
-            --success-color: #34c759;
-            --danger-color: #ff3b30;
-            --warning-color: #ff9f0a;
-            --info-color: #64d2ff;
-            --dark-color: #1c1c1e;
-            --light-color: #f2f2f7;
-            --surface-color: #ffffff;
-            --border-color: #e5e5ea;
-            --font-stack: -apple-system, BlinkMacSystemFont, "SF Pro Text", "SF Pro Display", "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             --sidebar-width: 260px;
             --topbar-height: 70px;
         }
@@ -76,10 +69,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         }
         
         body {
-            font-family: var(--font-stack);
-            background: var(--light-color);
-            overflow-x: hidden;
-            color: var(--dark-color);
+            /* Now handled by theme.css */
         }
         
         /* Sidebar */
@@ -89,8 +79,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             left: 0;
             height: 100vh;
             width: var(--sidebar-width);
-            background: linear-gradient(180deg, #0a84ff 0%, #5e5ce6 100%);
-            box-shadow: 0 16px 30px rgba(10, 132, 255, 0.18);
             z-index: 1000;
             transition: all 0.3s ease;
             overflow-y: auto;
@@ -107,72 +95,38 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         .sidebar-logo {
             width: 52px;
             height: 52px;
-            background: linear-gradient(145deg, rgba(255, 255, 255, 0.45), rgba(255, 255, 255, 0.14));
-            border-radius: 16px;
-            border: 1px solid rgba(255, 255, 255, 0.35);
+            border-radius: 14px;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-size: 1.55rem;
             position: relative;
-            transform-style: preserve-3d;
-            box-shadow:
-                0 8px 18px rgba(4, 45, 112, 0.35),
-                inset 0 1px 0 rgba(255, 255, 255, 0.55),
-                inset 0 -8px 12px rgba(66, 96, 255, 0.22);
+            box-shadow: 0 8px 24px rgba(99, 102, 241, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.3);
             animation: logoFloat 3.2s ease-in-out infinite;
+            overflow: hidden;
+            flex-shrink: 0;
         }
 
-        .sidebar-logo::before {
-            content: "";
-            position: absolute;
-            inset: 5px;
-            border-radius: 12px;
-            background: linear-gradient(160deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.02));
-            transform: translateZ(14px);
-            pointer-events: none;
-        }
-
-        .sidebar-logo::after {
-            content: "";
-            position: absolute;
-            width: 42px;
-            height: 10px;
-            bottom: -11px;
-            left: 5px;
-            border-radius: 999px;
-            background: rgba(2, 24, 79, 0.35);
-            filter: blur(6px);
-            z-index: -1;
-            pointer-events: none;
-        }
-
-        .sidebar-logo i {
-            position: relative;
-            z-index: 1;
-            transform: translateZ(28px);
-            text-shadow: 0 2px 6px rgba(12, 30, 103, 0.35);
+        .sidebar-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 14px;
         }
 
         @keyframes logoFloat {
-            0%, 100% {
-                transform: translateY(0) rotateX(0deg) rotateY(0deg);
-            }
-            50% {
-                transform: translateY(-3px) rotateX(5deg) rotateY(-4deg);
-            }
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-4px); }
         }
         
         .sidebar-title {
-            color: white;
+            color: var(--text-primary);
             font-size: 1.25rem;
             font-weight: 700;
             margin: 0;
         }
         
         .sidebar-subtitle {
-            color: rgba(255, 255, 255, 0.8);
+            color: var(--text-secondary);
             font-size: 0.75rem;
             margin: 0;
         }
@@ -191,7 +145,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             align-items: center;
             gap: 0.75rem;
             padding: 0.75rem 1rem;
-            color: rgba(255, 255, 255, 0.9);
+            color: var(--text-secondary);
             text-decoration: none;
             border-radius: 10px;
             transition: all 0.3s ease;
@@ -199,14 +153,14 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         }
         
         .menu-link:hover {
-            background: rgba(255, 255, 255, 0.16);
-            color: white;
+            background: var(--surface-hover);
+            color: var(--primary-color);
             transform: translateX(3px);
         }
         
         .menu-link.active {
-            background: rgba(255, 255, 255, 0.24);
-            color: white;
+            background: var(--surface-hover);
+            color: var(--primary-color);
             font-weight: 600;
         }
         
@@ -218,7 +172,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         
         .menu-divider {
             height: 1px;
-            background: rgba(255, 255, 255, 0.1);
+            background: var(--border-color);
             margin: 1rem 1.5rem;
         }
         
@@ -232,9 +186,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         /* Topbar */
         .topbar {
             height: var(--topbar-height);
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 8px 24px rgba(28, 28, 30, 0.08);
             display: flex;
             align-items: center;
             justify-content: space-between;
@@ -246,7 +197,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         
         .topbar-left h4 {
             margin: 0;
-            color: var(--dark-color);
+            color: var(--text-primary);
             font-weight: 700;
         }
         
@@ -267,7 +218,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         .notification-icon {
             position: relative;
             font-size: 1.5rem;
-            color: var(--dark-color);
+            color: var(--text-primary);
             cursor: pointer;
             transition: color 0.3s ease;
         }
@@ -301,7 +252,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         }
         
         .user-profile:hover {
-            background: var(--light-color);
+            background: var(--surface-hover);
         }
         
         .user-avatar {
@@ -316,13 +267,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
             margin: 0;
             font-size: 0.9rem;
             font-weight: 600;
-            color: var(--dark-color);
+            color: var(--text-primary);
         }
         
         .user-info p {
             margin: 0;
             font-size: 0.75rem;
-            color: #6b7280;
+            color: var(--text-secondary);
         }
         
         /* Dropdown Menu */
@@ -342,7 +293,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
         }
         
         .dropdown-item:hover {
-            background: var(--light-color);
+            background: var(--surface-hover);
         }
         
         /* Page Content */
@@ -352,9 +303,6 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
         .card {
             border-radius: 16px !important;
-            border: 1px solid var(--border-color) !important;
-            box-shadow: 0 8px 24px rgba(28, 28, 30, 0.06) !important;
-            background: var(--surface-color);
         }
 
         .btn {
@@ -404,7 +352,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <aside class="sidebar">
         <div class="sidebar-header">
             <div class="sidebar-logo">
-                <i class="bi bi-piggy-bank-fill"></i>
+                <img src="<?= ASSETS_URL ?>images/logo.png" alt="Bachat Gat Logo">
             </div>
             <div>
                 <h5 class="sidebar-title">Bachat Gat</h5>
@@ -520,9 +468,13 @@ $currentPage = basename($_SERVER['PHP_SELF']);
     <!-- Main Content -->
     <div class="main-content">
         <!-- Topbar -->
-        <nav class="topbar">
-            <div class="topbar-left">
-                <h4><?= isset($pageTitle) ? $pageTitle : 'Dashboard' ?></h4>
+        <nav class="topbar glass-navbar">
+            <div class="topbar-left d-flex align-items-center gap-3">
+                <button class="btn btn-light d-md-none border-0 p-1" id="sidebarToggle" onclick="toggleSidebar()" aria-label="Toggle Sidebar">
+                    <i class="bi bi-list fs-4"></i>
+                </button>
+                <div>
+                    <h4 class="mb-0"><?= isset($pageTitle) ? $pageTitle : 'Dashboard' ?></h4>
                 <?php if (isset($breadcrumbs)): ?>
                     <nav aria-label="breadcrumb">
                         <ol class="breadcrumb">
@@ -548,9 +500,15 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         </ol>
                     </nav>
                 <?php endif; ?>
+                </div>
             </div>
             
             <div class="topbar-right">
+                <!-- Theme Toggle -->
+                <button class="theme-toggle-btn" aria-label="Toggle Theme">
+                    <i class="bi bi-moon-fill"></i>
+                </button>
+                
                 <!-- Notifications -->
                 <div class="dropdown">
                     <div class="notification-icon" data-bs-toggle="dropdown">
@@ -574,7 +532,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
                         if ($notifications):
                             foreach ($notifications as $notification):
                         ?>
-                            <a href="<?= BASE_URL . (isAdmin() ? 'admin' : 'member') ?>/notifications.php" class="dropdown-item <?= !$notification['is_read'] ? 'bg-light' : '' ?>">
+                            <a href="<?= BASE_URL . (isAdmin() ? 'admin' : 'member') ?>/notifications.php" class="dropdown-item <?= !$notification['is_read'] ? 'bg-primary bg-opacity-10' : '' ?>">
                                 <div class="d-flex align-items-start">
                                     <div class="me-2">
                                         <?php
